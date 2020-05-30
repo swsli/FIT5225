@@ -1,0 +1,17 @@
+
+adapted from https://www.youtube.com/watch?v=FQBT8vVRkAg&feature=youtu.be
+
+ssh into ubuntu VM
+
+mkdir mkdir -p build/python/lib/python3.6/site-packages --system
+pip3 install opencv-python -t build/python/lib/python3.6/site-packages --system
+pip3 install pillow -t build/python/lib/python3.6/site-packages
+cd build
+sudo apt install zip
+zip -r dependencies.zip .
+
+scp dependencies.zip file to local machine
+
+add dependencies.zip file to S3 bucket
+create layer in AWS Lambda, using S3 url and Python 3.6 runtime
+add layer to Lambda function
