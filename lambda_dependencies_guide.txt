@@ -5,7 +5,6 @@ ssh into ubuntu VM
 
 mkdir mkdir -p build/python/lib/python3.6/site-packages --system
 pip3 install opencv-python -t build/python/lib/python3.6/site-packages --system
-pip3 install pillow -t build/python/lib/python3.6/site-packages
 cd build
 sudo apt install zip
 zip -r dependencies.zip .
