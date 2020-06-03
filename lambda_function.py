@@ -53,7 +53,7 @@ def get_detections(net, blob, labels):
             confidence = float(scores[label_id])
             
             # If the detection confidence is over 50%, add to the detections
-            if confidence > 50:
+            if confidence > 0.5:
                 detections.append({"label": str(labels[label_id]),
                                    "accuracy": str(confidence * 100)})
 
@@ -78,13 +78,15 @@ def object_detection(file):
 
 
 def lambda_handler(event, context):
-    file = s3_client.get_object(Bucket='asgn2-s3', Key='000000012807.jpg')
+    # for record in event['Records']:
+    # bucket = record['s3']['bucket']['name']
+    # key = unquote_plus(record['s3']['object']['key'])
+
+    file = s3_client.get_object(Bucket='asgn2-s3', Key='000000102258.jpg')
     content = file['Body'].read()
 
     response = object_detection(content)
     
-    print(response)
-
     return { 'statusCode': 200, 'body': json.dumps(response) }
 
 

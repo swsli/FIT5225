@@ -4,6 +4,6 @@ Make all files (coco.names, yolov3.cfg, yolov3.weights) public for now
 
 Lambda function
 Timeout: 20 seconds
-Memory: 512 MB
+Memory: 1024 MB
 
 
