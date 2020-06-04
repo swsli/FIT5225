@@ -3,7 +3,7 @@ S3 bucket
 Make all files (coco.names, yolov3.cfg, yolov3.weights) public for now
 
 Lambda function
-Timeout: 20 seconds
+Timeout: 30 seconds
 Memory: 1024 MB
 
 

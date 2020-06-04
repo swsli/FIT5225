@@ -4,9 +4,12 @@ import numpy as np
 import json
 import cv2
 import boto3
+import uuid
+from urllib.parse import unquote_plus
 
 
 s3_client = boto3.client('s3')
+dynamodb_client = boto3.client('dynamodb')
 
 def get_coco_values():
     # Object names, weights, configuration file
@@ -54,11 +57,7 @@ def get_detections(net, blob, labels):
             
             # If the detection confidence is over 50%, add to the detections
             if confidence > 0.5:
-                detections.append({"label": str(labels[label_id]),
-                                   "accuracy": str(confidence * 100)})
-
-    # Format the result
-    detections = {"objects" : detections}
+                detections.append(str(labels[label_id]))
     
     return detections
 
@@ -78,15 +77,20 @@ def object_detection(file):
 
 
 def lambda_handler(event, context):
-    # for record in event['Records']:
-    # bucket = record['s3']['bucket']['name']
-    # key = unquote_plus(record['s3']['object']['key'])
-
-    file = s3_client.get_object(Bucket='asgn2-s3', Key='000000102258.jpg')
-    content = file['Body'].read()
-
-    response = object_detection(content)
-    
-    return { 'statusCode': 200, 'body': json.dumps(response) }
-
+    for record in event['Records']:
+        bucket = record['s3']['bucket']['name']
+        key = unquote_plus(record['s3']['object']['key'])
+        table = 'asgn2-dynamodb'
+        file = s3_client.get_object(Bucket=bucket, Key=key)
+        content = file['Body'].read()
+        
+        detections = object_detection(content)
+        
+        print(detections)
+        
+        data = {}
+        data['id'] = {'S': str(uuid.uuid4())}
+        data['objects'] = {'SS': detections}
+        
+        response = dynamodb_client.put_item(TableName=table, Item=data)
 
