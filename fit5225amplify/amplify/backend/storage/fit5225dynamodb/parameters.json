@@ -1,0 +1,5 @@
+{
+    "tableName": "fit5225dynamodb",
+    "partitionKeyName": "url",
+    "partitionKeyType": "S"
+}

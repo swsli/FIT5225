@@ -1,0 +1,53 @@
+{
+    "function": {
+        "mainlambda": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "storage",
+                    "resourceName": "fit5225dynamodb",
+                    "attributes": [
+                        "Name",
+                        "Arn",
+                        "StreamArn"
+                    ]
+                }
+            ]
+        }
+    },
+    "api": {
+        "mainappapi": {
+            "service": "API Gateway",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [
+                {
+                    "category": "function",
+                    "resourceName": "mainlambda",
+                    "attributes": [
+                        "Name",
+                        "Arn"
+                    ]
+                }
+            ]
+        }
+    },
+    "auth": {
+        "fit5225amplify9498673d9498673d": {
+            "service": "Cognito",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": []
+        }
+    },
+    "storage": {
+        "fit5225amplifyS3": {
+            "service": "S3",
+            "providerPlugin": "awscloudformation"
+        },
+        "fit5225dynamodb": {
+            "service": "DynamoDB",
+            "providerPlugin": "awscloudformation"
+        }
+    }
+}
