@@ -16,7 +16,7 @@ dynamodb_table = 'asgn2-dynamodb'
 def get_coco_values():
     # Object names, weights, configuration file
     labels_path = s3_client.get_object(Bucket = s3_bucket, Key = 'coco.names')
-    labels = labels_path["Body"].read().decode('utf-8').strip().split('\n')
+    labels = labels_path['Body'].read().decode('utf-8').strip().split('\n')
 
     config = '/tmp/config'
     if not os.path.isfile(config):
@@ -58,7 +58,7 @@ def get_detections(net, blob, labels):
             confidence = float(scores[label_id])
             
             # If the detection confidence is over 50%, add to the detections
-            if confidence > 0.5:
+            if confidence > 0.5 and str(labels[label_id]) not in detections:
                 detections.append(str(labels[label_id]))
     
     return detections
@@ -80,6 +80,7 @@ def object_detection(file):
 
 def lambda_handler(event, context):
     for record in event['Records']:
+        # bucket = record['s3']['bucket']['name']
         key = unquote_plus(record['s3']['object']['key'])
         file = s3_client.get_object(Bucket = s3_bucket, Key = key)
         content = file['Body'].read()
