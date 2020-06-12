@@ -8,7 +8,7 @@ import {AmplifyAuthenticator, AmplifySignIn, AmplifySignOut, AmplifySignUp} from
 
 function Query() {
     const [inputList, setInputList] = useState([{ tagValue : "" }]);
-    const [resultData, setResultData] = useState({});
+    const [resultData, setResultData] = useState([]);
 
     async function setResult(data){
         setResultData(data)
@@ -52,7 +52,7 @@ function Query() {
                 'queryStringParameters': tagsList
             }).then(
                 (result) =>{
-                    setResultData(result)
+                    setResultData(result["links"])
                 }
             );
         } catch (err) {
@@ -101,13 +101,13 @@ function Query() {
 
                 {inputList.map((x, i) => {
                     return (
-                        <div className="box">
+                        <div key={""}>
                             <input
                                 placeholder="Enter tag value"
                                 value={x.tagValue}
                                 onChange={e => handleInputChange(e, i)}
                             />
-                            <div className="btn-box">
+                            <div>
                                 {inputList.length !== 1 && <button
                                     className="mr10"
                                     onClick={() => handleRemoveClick(i)}>Remove</button>}
@@ -119,9 +119,17 @@ function Query() {
                 <div style={{ marginTop: 20 }}>{JSON.stringify(inputList)}</div>
                 <button onClick={callApi}>Submit</button>
             </div>
+            <h3>Results:</h3>
+            <div>
+                {resultData.map((x, i) => {
+                    return (
+                        <div className="box">
+                            {x}
+                        </div>
+                    );
+                })}
+            </div>
 
-
-            <div style={{ marginTop: 20 }}>{JSON.stringify(resultData)}</div>
 
 
 
