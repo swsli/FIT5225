@@ -1,7 +1,6 @@
 import React from "react";
 import {Storage} from "aws-amplify";
-import Authenticator from "aws-amplify-react";
-import { AmplifyAuthenticator, AmplifySignUp, AmplifySignOut, AmplifySignIn, withAuthenticator } from '@aws-amplify/ui-react';
+import { AmplifyAuthenticator, AmplifySignUp, AmplifySignOut, AmplifySignIn } from '@aws-amplify/ui-react';
 
 
 class Upload extends React.Component {
@@ -55,6 +54,8 @@ class Upload extends React.Component {
                         onChange={(evt) => this.onChange(evt)}
                     />
                 </div>
+                <button
+                    onChange={(evt) => this.onChange(evt)}>submit</button>
                 <AmplifySignOut/>
             </AmplifyAuthenticator>
 

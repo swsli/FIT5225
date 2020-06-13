@@ -1,6 +1,5 @@
 import {AmplifyAuthenticator, AmplifySignIn, AmplifySignUp} from "@aws-amplify/ui-react";
 import React from "react";
-import {Redirect} from "react-router";
 
 function SignIn() {
     return(

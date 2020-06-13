@@ -1,5 +1,5 @@
 import {API, Auth} from "aws-amplify";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {AmplifyAuthenticator, AmplifySignIn, AmplifySignOut, AmplifySignUp} from "@aws-amplify/ui-react";
 
 
@@ -10,9 +10,6 @@ function Query() {
     const [inputList, setInputList] = useState([{ tagValue : "" }]);
     const [resultData, setResultData] = useState([]);
 
-    async function setResult(data){
-        setResultData(data)
-    }
 
     // handle input change
     const handleInputChange = (e, index) => {
@@ -45,7 +42,7 @@ function Query() {
 
 
 
-            const QueryData = await API.get('fit5225a2api', '/query', {
+            await API.get('fit5225a2api', '/query', {
                 headers: {
                     Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
                 },
@@ -101,7 +98,7 @@ function Query() {
 
                 {inputList.map((x, i) => {
                     return (
-                        <div key={""}>
+                        <div>
                             <input
                                 placeholder="Enter tag value"
                                 value={x.tagValue}
